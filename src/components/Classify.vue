@@ -2,14 +2,14 @@
     <div id="classify">
       <div class="search-container">
         <div class="search">
-          <input type="text">
-          <button><i class="iconfont">&#xe647;</i></button>
+          <input type="text" v-model="searchKeywords">
+          <button @click="search"><i class="iconfont">&#xe647;</i></button>
         </div>
       </div>
       <div class="classify-container" v-for="(value, key) in storeInfor.classify">
         <dl>
           <dt>{{key}}</dt>
-          <router-link  v-for="item in value" :to="{ name: 'search-result', query: { keywords: item}}">
+          <router-link  v-for="item in value" :to="{ name: 'search-result', query: { type: 1, keywords: item}}">
             <dd>
               {{item}} <i class="iconfont">&#xe612;</i>
             </dd>
@@ -27,24 +27,13 @@
     },
     data() {
       return {
-        classifyList: [
-          {
-            classify_name: '化妆品',
-            content: [{ specific_name: '防晒霜', specific_id: 4354},{ specific_name: '粉底', specific_id: 2312 }]
-          },
-          {
-            classify_name: '护肤品',
-            content: [{ specific_name: '洗面奶', specific_id: 13},{ specific_name: '面膜', specific_id: 52 }]
-          },
-          {
-            classify_name: '药品',
-            content: [{ specific_name: '外用', specific_id: 433 },{ specific_name: '内用', specific_id: 242 }]
-          }
-        ]
+        searchKeywords: ''
       }
     },
     methods: {
-
+      search() {
+        this.$router.push({name: 'search-result', query: { type: 0, keywords: this.searchKeywords}});
+      }
     },
     mounted() {
       this.$store.dispatch('setTitle', '分类');

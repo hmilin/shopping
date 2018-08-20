@@ -1,5 +1,5 @@
 const service = require('axios').create({
-  baseURL: 'http://192.168.1.5:3000',            //api请求的baseURL
+  baseURL: 'http://192.168.1.3:3000',            //api请求的baseURL
   timeout: 0,
   withCredentials: true, // 允许跨域 cookie
   Headers: {'X-Requested-With': 'XMLHttpRequest'},
