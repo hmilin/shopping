@@ -1,6 +1,6 @@
 <template>
     <div id="search-result">
-      <header><i @click="exit" class="iconfont">&#xe667;</i>查找结果</header>
+      <Header>查找结果</Header>
       <div class="result-show">
         <p v-if="resultList.length === 0"><i class="iconfont">&#xe647;</i>找不到该宝贝</p>
         <Product class="product" v-for="item in resultList" :productList="item"></Product>
@@ -10,13 +10,15 @@
 
 <script>
   import Product from './Product'
+  import Header from './Header'
   import { classifySearch } from "../api/classifySearch"//按分类查找
   import { anywordSearch } from "../api/anywordSearch" //按任意词查找
 
   export default {
     name: "SearchResult",
     components: {
-      Product
+      Product,
+      Header
     },
     data() {
       return {
@@ -26,19 +28,17 @@
     },
     methods: {
       getSearchResult () {
-        if(this.query.type === 1) {
+        if(this.query.type === '1') {
           classifySearch({}, this.query.keywords).then((response) => {
             this.resultList = response.data.data;
           })
-        }else if(this.query.type === 0) {
+        }else if(this.query.type === '0') {
           anywordSearch({}, this.query.keywords).then((response) => {
             this.resultList = response.data.data;
           })
         }
       },
-      exit() {
-        history.go(-1);
-      }
+
     },
     mounted() {
       this.query = this.$route.query;
@@ -52,21 +52,6 @@
   #search-result {
     min-height: 100vh;
     background-color: #efefef;
-    header {
-      background-color: #fff;
-      @include px2rem(line-height, 100);
-      font-size: 0.6rem;
-      color: #999;
-      text-align: center;
-      position: fixed;
-      top: 0;
-      z-index: 999;
-      width: 100vw;
-      i {
-        position: absolute;
-        @include px2rem(left, 20);
-      }
-    }
     .result-show {
       width: 100%;
       overflow: auto;

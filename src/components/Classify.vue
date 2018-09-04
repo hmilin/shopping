@@ -9,7 +9,7 @@
       <div class="classify-container" v-for="(value, key) in storeInfor.classify">
         <dl>
           <dt>{{key}}</dt>
-          <router-link  v-for="item in value" :to="{ name: 'search-result', query: { type: 1, keywords: item}}">
+          <router-link  v-for="item in value" :to="{ name: 'search-result', query: { type: '1', keywords: item}}">
             <dd>
               {{item}} <i class="iconfont">&#xe612;</i>
             </dd>
@@ -32,7 +32,7 @@
     },
     methods: {
       search() {
-        this.$router.push({name: 'search-result', query: { type: 0, keywords: this.searchKeywords}});
+        this.$router.push({name: 'search-result', query: { type: '0', keywords: this.searchKeywords}});
       }
     },
     mounted() {
@@ -48,7 +48,7 @@
     padding: 10px;
     .search-container {
       position: relative;
-      background-color: #fff;
+      background-color: rgba(255,255,255,0.5);
       @include px2rem(height, 60);
       @include px2rem(padding, 20);
       input {
@@ -61,6 +61,7 @@
         padding-left: 10px;
         @include px2rem(padding-right, 80);
         box-sizing: border-box;
+        background-color: transparent;
       }
       button {
         position: absolute;
@@ -83,7 +84,7 @@
       color: #999;
       margin-top: 10px;
       @include px2rem(padding, 20);
-      background-color: #fff;
+      background-color: rgba(255,255,255,0.5);
       text-align: left;
       dt {
         font-size: 0.6rem;

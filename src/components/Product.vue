@@ -29,7 +29,11 @@
       height: 80%;
     }
     p {
-      display: inline-block;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      height: 18%;
       margin-top: 0.1rem;
       border-top: 1px solid #999;
       padding-top: 0.1rem;
@@ -37,7 +41,7 @@
       font-size: 0.4rem;
       width: 100%;
       color: #999;
-      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 </style>

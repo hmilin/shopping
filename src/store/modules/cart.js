@@ -3,7 +3,8 @@ const state = {
   footerList: [
     { title: '首页', route: '/home', icon: '&#xe641;' },
     { title: '分类', route: '/classify', icon: '&#xe669;' },
-    { title: '我的', route: '/personage', icon: '&#xe645;' }
+    { title:'购物车', route: '/shopping_cart', icon: '&#xe64f;'},
+    { title: '我的', route: '/personage', icon: '&#xe645;' },
   ],
 }
 

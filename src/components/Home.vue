@@ -81,6 +81,7 @@
       @include px2rem(height, 450);
     }
     .product-list {
+      background-color: #efefef;
       width: 100%;
       overflow: auto;
       .product {
