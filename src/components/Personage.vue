@@ -37,8 +37,9 @@
         userInfor: {},
         functionList: [
           { name: '我看过的', url: '/my_track' },
-          { name: '我的收藏', url: '/my_order' },
-          { name: '我的订单', url: '/my_collect' },
+          { name: '我的收藏', url: '/my_collect' },
+          { name: '我的订单', url: '/my_order' },
+          { name: '收货地址', url: '/my_address'}
         ],
         loginStatus: false
       }

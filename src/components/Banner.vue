@@ -28,12 +28,12 @@
           pagination : {
             el: '.swiper-pagination'
           },
+          loop: true,
           autoplay: {
             delay: 2000,
             disableOnInteraction: false,
             },
           speed: 1000,
-          loop: true
         }
       }
     }
