@@ -3,7 +3,7 @@
       <div id="hava-product" v-if="productListLength > 0">
         <div id="product-list">
           <div class="product" v-for="(product, index) in productList" :key="index">
-            <input type="checkbox" :name="product.name" :value="product.product_id" @click="radioCheck(index)" :checked="checkBox[index].checked">
+            <input type="checkbox" :name="product.name" :value="product.product_id" @click="radioCheck(product._id)" :checked="checkBox[index].checked">
             <CartProduct :product="product" class="cart-product"></CartProduct>
           </div>
         </div>
@@ -13,7 +13,7 @@
           </div>
           <span>全选</span>
           <div class="account right">
-            <button>结算</button>
+            <button @click="placeOrder">结算</button>
           </div>
           <div class="delete right">
             <i class="iconfont"></i>
@@ -48,17 +48,29 @@
       }
     },
     computed: {
+      //被选中的id数组
       checkedIdList() {
         let deleteList = [];
         this.checkBox.forEach((item) => {
           if(item.checked === true) {
-            deleteList.push(item.id);
+            //购物车里面的_id
+            deleteList.push(item._id);
           }
         });
         return deleteList;
       },
       productListLength() {
         return this.productList.length;
+      },
+      //被选中的所有产品列表
+      checkedList() {
+        let checkList = [];
+        this.checkBox.forEach((item) => {
+          if(item.checked === true) {
+            checkList.push(item);
+          }
+        })
+        return checkList;
       }
     },
     methods: {
@@ -68,12 +80,9 @@
           if(response.data.code === 200) {
             this.productList = response.data.data.cart;
             this.productList.forEach((item, index) => {
-              this.checkBox.push({
-                key: index,
-                id: item.product_id,
-                price: item.price,
-                checked: false
-              });
+              this.checkBox.push(item);
+              this.checkBox[index].checked = false;
+              this.checkBox[index].key = index;
             });
             console.log(this.productList);
           }else if(response.data.code === -3) {
@@ -97,13 +106,13 @@
         this.addPrice();
       },
       //单选
-      radioCheck(key) {
+      radioCheck(id) {
         let all = true;
         this.checkBox.forEach((item, index) => {
           //当前商品目前已被选中
-          if((item.key === key) && (item.checked === true)) {
+          if((item._id === id) && (item.checked === true)) {
             item.checked = false;
-          } else if((item.key === key) && (item.checked === false)) { //当前商品目前为被选中
+          } else if((item._id === id) && (item.checked === false)) {//当前商品目前被选中
             item.checked = true;
           }
         });
@@ -132,12 +141,30 @@
       },
       //删除商品
       toDeleteCart() {
-        deleteCart({deleteList: this.checkedIdList}).then((response) => {
-          console.log('delete',response);
+        let idList = this.checkedIdList;
+        console.log('checked', this.checkedIdList)
+        deleteCart({deleteList: idList}).then((response) => {
           if(response.data.code === 200) {
-              this.reload();
+            idList.forEach((id) => {
+              this.productList.forEach((item, index) => {
+                if(item._id === id) {
+                  this.productList.splice(index, 1);
+                  this.checkBox.splice(index, 1);
+                }
+              })
+            });
           }
         })
+      },
+      //结算
+      placeOrder() {
+        let list = {};
+        this.checkedIdList.forEach((item, index) => {
+          list['key'+index] = item;
+        });
+        this.$store.dispatch('setCart', this.checkedList);
+        console.log('checklist', this.checkedList)
+        this.$router.push({ name: 'place-order' });
       }
     },
     mounted() {
@@ -173,6 +200,7 @@
         }
         .cart-product {
           display: inline-block;
+          width: 90%;
         }
       }
     }

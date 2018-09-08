@@ -33,7 +33,7 @@
   #cart-product {
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 10px 10px 30px;
+    padding: 10px 10px 10px 10px;
     a {
       #container {
         font-size: 0;

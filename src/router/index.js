@@ -11,6 +11,7 @@ import ShoppingCart from '../components/ShoppingCart'
 import MyCollect from '../components/MyCollect'
 import PlaceOrder from '../components/PlaceOrder'
 import MyAddress from '../components/MyAddress'
+import Changing from '../components/Changing'
 
 Vue.use(Router);
 
@@ -68,6 +69,11 @@ export default new Router({
       name: 'my-address',
       path: '/my_address',
       component: MyAddress
+    },
+    {
+      name: 'changing',
+      path: '/changing',
+      component: Changing
     }
   ]
 })

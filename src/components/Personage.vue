@@ -6,7 +6,7 @@
         <div class="img"><img :src="userInfor.head_portrait"></div>
         <div class="infor_content">
           <span>昵称：</span>{{userInfor.username}}
-          <p><router-link to="/">设置</router-link></p>
+          <p><router-link to="/changing">设置</router-link></p>
         </div>
       </div>
       <div id="function_list">
@@ -36,7 +36,6 @@
       return {
         userInfor: {},
         functionList: [
-          { name: '我看过的', url: '/my_track' },
           { name: '我的收藏', url: '/my_collect' },
           { name: '我的订单', url: '/my_order' },
           { name: '收货地址', url: '/my_address'}
@@ -62,6 +61,8 @@
           if(response.data.code === 200) {
             this.loginStatus = true;
             this.userInfor = response.data.data;
+            this.$store.dispatch('setInfor', response.data.data);
+            console.log(this.$store.getters.infor)
           }
         })
       }
