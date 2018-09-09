@@ -61,8 +61,7 @@
       },
       //提交订单
       toPlaceOrder() {
-        placeOrder({productList: this.productList, total_price: this.price}).then((response) => {
-          console.log(response);
+        placeOrder({productList: this.productList, total_price: this.addPrice}).then((response) => {
           if(response.data.code === 200) {
             alert('success');
           }

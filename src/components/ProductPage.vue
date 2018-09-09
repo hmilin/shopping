@@ -1,30 +1,35 @@
 <template>
     <div id="product-page">
-      <Header>详情</Header>
-      <ImageShow class="image-show" :imageList="productDetailList.imageList"></ImageShow>
-      <div class="desc">
-        <span>{{productDetailList.desc}}</span>
-        <div class="price">
-          <span>￥{{productDetailList.price}}</span>
-          <div class="order">
-            <i class="iconfont" @click="markLike" :class="{'like': like}">&#xe629;</i>
-            <i class="iconfont" @click="toAddCart">&#xe621;</i>
+      <div v-show="!largeImg">
+        <Header>详情</Header>
+        <div @click="showImg"><ImageShow class="image-show" :imageList="productDetailList.imageList"></ImageShow></div>
+        <div class="desc">
+          <span>{{productDetailList.desc}}</span>
+          <div class="price">
+            <span>￥{{productDetailList.price}}</span>
+            <div class="order">
+              <i class="iconfont" @click="markLike" :class="{'like': like}">&#xe629;</i>
+              <i class="iconfont" @click="toAddCart">&#xe621;</i>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="details clearfix">
-        <div class="details-header">商品信息</div>
-        <div class="details-key">
-          <p v-for="( value, key) in productDetailList.detailed">{{key}}</p>
+        <div class="details clearfix">
+          <div class="details-header">商品信息</div>
+          <div class="details-key">
+            <p v-for="( value, key) in productDetailList.detailed">{{key}}</p>
+          </div>
+          <div class="details-value">
+            <p v-for="( value, key) in productDetailList.detailed">{{value}}</p>
+          </div>
         </div>
-        <div class="details-value">
-          <p v-for="( value, key) in productDetailList.detailed">{{value}}</p>
+        <div class="divided">图文详情</div>
+        <div class="larger-version">
+          <img v-for="item in productDetailList.largerImage" v-lazy="item.url" alt="item.desc" @click="showVersion(item.url)">
+          <p>到底了</p>
         </div>
       </div>
-      <div class="divided">图文详情</div>
-      <div class="larger-version">
-        <img v-for="item in productDetailList.largerImage" v-lazy="item.url" alt="item.desc">
-        <p>到底了</p>
+      <div id="large-image"  @click="largeImg=false">
+        <LargeImg :imageList="largeImgList" v-show="largeImg"></LargeImg>
       </div>
     </div>
 </template>
@@ -37,17 +42,21 @@
   import { cancelMark } from "../api/cancelMark";
   import { getMarkStatus } from "../api/getMarkStatus";
   import { addCart } from "../api/addCart";
+  import LargeImg from './LargeImg';
 
   export default {
     name: "ProductPage",
     components: {
       ImageShow,
-      Header
+      Header,
+      LargeImg
     },
     data() {
       return {
         productDetailList: {},
-        like: false
+        like: false,
+        largeImg: false,
+        largeImgList: ''
       }
     },
     methods: {
@@ -94,6 +103,16 @@
             alert(response.data.success);
           }
         })
+      },
+      //展示大图
+      showImg() {
+        this.largeImgList = this.productDetailList.imageList;
+        this.largeImg = true;
+      },
+      showVersion(url){
+        alert(1);
+        this.largeImgList = url;
+        this.largeImg = true;
       }
     },
     mounted() {
@@ -201,6 +220,12 @@
         color: #999;
         @include px2rem(line-height, 100);
       }
+    }
+    #large-image {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
     }
   }
 </style>

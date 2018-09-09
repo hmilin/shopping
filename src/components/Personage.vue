@@ -5,7 +5,7 @@
       <div id="user_infor">
         <div class="img"><img :src="userInfor.head_portrait"></div>
         <div class="infor_content">
-          <span>昵称：</span>{{userInfor.username}}
+          <span>昵称&nbsp&nbsp</span>{{userInfor.username}}
           <p><router-link to="/changing">设置</router-link></p>
         </div>
       </div>
@@ -87,7 +87,7 @@
         .img {
           height: 100px;
           width: 100px;
-          border-radius: 100px;
+          border-radius: 10px;
           overflow: hidden;
           float: left;
           margin-left: 10px;
@@ -97,14 +97,15 @@
           }
         }
         .infor_content {
-          color: #999;
-          font-size: 0.7rem;
+          color: #333;
+          font-size: 0.6rem;
           float: left;
           margin-left: 20px;
           margin-top: 50px;
           transform: translate(0, -50%);
           span {
             font-size: 0.5rem;
+            color: #999;
           }
           p {
             text-align: left;
