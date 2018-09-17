@@ -1,6 +1,6 @@
 <template>
     <div id="product-page">
-      <div v-show="!largeImg">
+      <div >
         <Header>详情</Header>
         <div @click="showImg"><ImageShow class="image-show" :imageList="productDetailList.imageList"></ImageShow></div>
         <div class="desc">
@@ -28,8 +28,8 @@
           <p>到底了</p>
         </div>
       </div>
-      <div id="large-image"  @click="largeImg=false">
-        <LargeImg :imageList="largeImgList" v-show="largeImg"></LargeImg>
+      <div id="large-image"  @click="largeImg=false" v-show="largeImg">
+        <LargeImg :imageList="largeImgList"></LargeImg>
       </div>
     </div>
 </template>
@@ -83,8 +83,14 @@
       markLike() {
         if(this.like === false) {
           toMark({}, this.productDetailList._id).then((response) => {
+            console.log(response)
             if(response.data.code === 200) {
               this.like = true;
+              this.$store.dispatch('setAlert', true);
+              this.$store.dispatch('setContent', '收藏成功');
+            }else if(response.data.code === -3) {
+              this.$store.dispatch('setAlert', true);
+              this.$store.dispatch('setContent', '未登录');
             }
           })
         }else {
@@ -92,6 +98,11 @@
             console.log(response);
             if(response.data.code === 200) {
               this.like = false;
+              this.$store.dispatch('setAlert', true);
+              this.$store.dispatch('setContent', '取消成功');
+            }else if(response.data.code === -3) {
+              this.$store.dispatch('setAlert', true);
+              this.$store.dispatch('setContent', '未登录');
             }
           });
         }
@@ -100,7 +111,8 @@
         addCart({}, this.productDetailList._id).then((response) => {
           console.log(response);
           if(response.data.code === 200) {
-            alert(response.data.success);
+            this.$store.dispatch('setAlert', true);
+            this.$store.dispatch('setContent', '加入购物车成功');
           }
         })
       },
@@ -110,7 +122,6 @@
         this.largeImg = true;
       },
       showVersion(url){
-        alert(1);
         this.largeImgList = url;
         this.largeImg = true;
       }
@@ -222,6 +233,7 @@
       }
     }
     #large-image {
+      z-index: 99999999;
       position: fixed;
       width: 100vw;
       height: 100vh;

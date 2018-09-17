@@ -55,10 +55,10 @@
   #large-img {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: #000;
     position: relative;
     >div {
-      /*width: 100%;*/
+      width: 100%;
       position: absolute;
       top: 50%;
       transform: translate(0, -50%);

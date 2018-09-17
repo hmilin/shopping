@@ -29,6 +29,8 @@
           if(response.data.code === 200) {
             this.$emit('newName', this.username);
             this.$emit('exit', true);
+            this.$store.dispatch('setAlert', true);
+            this.$store.dispatch('setContent', '保存成功');
           }
         })
       }

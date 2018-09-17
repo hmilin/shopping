@@ -34,7 +34,6 @@
   import { deleteCart } from "../api/deleteCart";
 
   export default {
-    inject: ['reload'],
     name: "ShoppingCart",
     components: {
       CartProduct
@@ -86,7 +85,7 @@
             });
             console.log(this.productList);
           }else if(response.data.code === -3) {
-            alert('未登录')
+            this.$store.dispatch('setAlert', '未登录')
           }
         })
       },

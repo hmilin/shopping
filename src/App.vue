@@ -1,19 +1,35 @@
 <template>
   <div id="app">
     <router-view v-if="isRouterAlive"></router-view>
+    <transition name="fade">
+      <Alert class="alert" v-show="getState">{{getContent}}</Alert>
+    </transition>
   </div>
 </template>
 
 <script>
-  import Banner from './components/Banner'
+  import Alert from './components/Alert'
+
 export default {
   name: 'app',
   components : {
-    Banner
+    Alert
   },
-  provide() {
-    return {
-      reload: this.reload
+  computed: {
+    getState() {
+      return this.$store.getters.alertState;
+    },
+    getContent() {
+      return this.$store.getters.alertContent;
+    }
+  },
+  watch: {
+    getState: function(){
+      if(this.getState === true) {
+        setTimeout(() => {
+          this.$store.dispatch('setAlert', false);
+        }, 1000);
+      }
     }
   },
   data() {
@@ -22,12 +38,10 @@ export default {
     }
   },
   methods: {
-    reload() {
-      this.isRouterAlive = false;
-      this.$nextTick(() => {
-        this.isRouterAlive = true;
-      })
-    }
+
+  },
+  mounted() {
+
   }
 }
 </script>
@@ -48,6 +62,20 @@ export default {
   height: 100%;
   a {
     text-decoration: none;
+  }
+  .alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+  }
+  .fade-leave {
+    opacity: 1;
+  }
+  .fade-leave-active {
+    opacity: 0;
+    transition: all .8s linear;
   }
 }
 </style>

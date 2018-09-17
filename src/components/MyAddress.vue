@@ -63,6 +63,8 @@
             this.name = response.data.data.name;
             this.phone = response.data.data.phone;
             this.location = response.data.data.location;
+            this.$store.dispatch('setAlert', true);
+            this.$store.dispatch('setContent', '修改成功');
           }
         })
       }

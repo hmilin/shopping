@@ -63,7 +63,8 @@
       toPlaceOrder() {
         placeOrder({productList: this.productList, total_price: this.addPrice}).then((response) => {
           if(response.data.code === 200) {
-            alert('success');
+            this.$store.dispatch('setAlert', true);
+            this.$store.dispatch('setContent', '下单成功');
           }
         })
       }

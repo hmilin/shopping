@@ -49,8 +49,12 @@
         logout({}).then((response) => {
           if(response.data.code === 200) {
             this.loginStatus = false;
+            this.$store.dispatch('setAlert', true);
+            this.$store.dispatch('setContent', '退出成功');
             this.$router.push('/login');
           }else {
+            this.$store.dispatch('setAlert', true);
+            this.$store.dispatch('setContent','退出失败');
             alert('退出失败，请重试');
           }
         })

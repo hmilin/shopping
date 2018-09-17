@@ -34,9 +34,10 @@
       toLogin() {
         login({username: this.username, password: this.password}).then((response) => {
           if(response.data.status === 200) {
+            this.$store.dispatch('setAlert',true);
+            this.$store.dispatch('setContent', '登录成功');
             this.$router.push('/personage')
           }
-          console.log(response);
         })
       }
     }
